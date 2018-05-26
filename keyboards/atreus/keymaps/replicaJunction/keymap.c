@@ -26,7 +26,7 @@
 
 #define _CO 0 // Colemak
 #define _QW 1 // QWERTY
-#define _GA 2 // Gaming
+#define _DH 2 // Colemak Mod-DH
 #define _EX 3 // Extend
 #define _NU 4 // Numpad
 #define _FN 5 // Function
@@ -37,16 +37,37 @@
 #define KCX_CS  LCTL(KC_LSFT)
 #define KCX_CSA LCTL(LSFT(KC_LALT))
 #define KCX_LST LSFT(KC_TAB)
-#define KX_COPY LCTL(KC_C)
-#define KX_CUT  LCTL(KC_X)
-#define KX_PAST LCTL(KC_V)
-#define KX_UNDO LCTL(KC_Z)
+#define KX_COPY LGUI(KC_C)
+#define KX_CUT  LGUI(KC_X)
+#define KX_PAST LGUI(KC_V)
+#define KX_UNDO LGUI(KC_Z)
 
 #define _USER 0 // User macro
 
 ; // This doesn't do anything. It's just for VSCode because its syntax highlighting is weird for the above #define statements.
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  /*
+   * Colemak
+   *
+   * ,----------------------------------.                     ,----------------------------------.
+   * |   Q  |   W  |   F  |   P  |   G  |                     |   J  |   L  |   U  |   Y  |   ;  |
+   * +------+------+------+------+------|                     +------+------+------+------+------|
+   * |   A  |   R  |   S  |   T  |   D  |                     |   H  |   N  |   E  |   I  |   O  |
+   * +------+------+------+------+------|                     +------+------+------+------+------|
+   * |Z Shft|   X  |   C  |   V  |   B  | ,------.   ,------. |   K  |   M  |   ,  |   .  |/ Shft|
+   * +------+------+------+------+------| | Ctrl |   |  Alt | +------+------+------+------+------|
+   * |  Esc |  Tab |  Gui | _FN  | Bksp | |      |   |      | |Sp/_NU|Ent/_EX|  -  |   '  |   =  |
+   * `----------------------------------' `------'   `------' `----------------------------------'
+   *
+   */
+  [_CO] = LAYOUT(
+    KC_Q,        KC_W,    KC_F,    KC_P,    KC_G,                      KC_J,            KC_L,            KC_U,    KC_Y,    KC_SCLN,
+    KC_A,        KC_R,    KC_S,    KC_T,    KC_D,                      KC_H,            KC_N,            KC_E,    KC_I,    KC_O,
+    SFT_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,                      KC_K,            KC_M,            KC_COMM, KC_DOT,  SFT_T(KC_SLSH),
+    KC_ESC,      KC_TAB,  KC_LGUI, MO(_FN), KC_BSPC, KC_LCTL, KC_LALT, LT(_NU, KC_SPC), LT(_EX, KC_ENT), KC_MINS, KC_QUOT, KC_EQL
+  ),
+
   /*
    * Colemak-ModDH
    *
@@ -57,15 +78,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * +------+------+------+------+------|                     +------+------+------+------+------|
    * |Z Shft|   X  |   C  |   D  |   V  | ,------.   ,------. |   K  |   H  |   ,  |   .  |/ Shft|
    * +------+------+------+------+------| | Ctrl |   |  Alt | +------+------+------+------+------|
-   * |  Esc |  Gui |  Tab |  _FN | Bksp | |  Del |   | Enter| |Sp/_NU|  _EX |   -  |   '  |   =  |
+   * |  Esc |  Tab |  Gui | _FN  | Bksp | |      |   |      | |Sp/_NU|Ent/_EX|  -  |   '  |   =  |
    * `----------------------------------' `------'   `------' `----------------------------------'
    *
    */
-  [_CO] = LAYOUT(
-    KC_Q,        KC_W,    KC_F,    KC_P,    KC_B,                                   KC_J,            KC_L,    KC_U,    KC_Y,    KC_SCLN,
-    KC_A,        KC_R,    KC_S,    KC_T,    KC_G,                                   KC_M,            KC_N,    KC_E,    KC_I,    KC_O,
-    SFT_T(KC_Z), KC_X,    KC_C,    KC_D,    KC_V,                                   KC_K,            KC_H,    KC_COMM, KC_DOT,  SFT_T(KC_SLSH),
-    KC_ESC,      KC_LGUI, KC_TAB,  MO(_FN), KC_BSPC, CTL_T(KC_DEL), ALT_T(KC_ENT),  LT(_NU, KC_SPC), MO(_EX), KC_MINS, KC_QUOT, KC_EQL
+  [_DH] = LAYOUT(
+    KC_Q,        KC_W,    KC_F,    KC_P,    KC_B,                      KC_J,            KC_L,            KC_U,    KC_Y,    KC_SCLN,
+    KC_A,        KC_R,    KC_S,    KC_T,    KC_G,                      KC_M,            KC_N,            KC_E,    KC_I,    KC_O,
+    SFT_T(KC_Z), KC_X,    KC_C,    KC_D,    KC_V,                      KC_K,            KC_H,            KC_COMM, KC_DOT,  SFT_T(KC_SLSH),
+    KC_ESC,      KC_TAB,  KC_LGUI, MO(_FN), KC_BSPC, KC_LCTL, KC_LALT, LT(_NU, KC_SPC), LT(_EX, KC_ENT), KC_MINS, KC_QUOT, KC_EQL
   ),
 
   /*
@@ -78,15 +99,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * +------+------+------+------+------|                     +------+------+------+------+------|
    * |Z Shft|   X  |   C  |   V  |   B  | ,------.   ,------. |   N  |   M  |   ,  |   .  |/ Shft|
    * +------+------+------+------+------| | Ctrl |   |  Alt | +------+------+------+------+------|
-   * |  Esc |  Gui |  Tab |  _FN | Bksp | |  Del |   | Enter| |Sp/_NU|  _EX |   -  |   '  |   =  |
+   * |  Esc |  Tab |  Gui | _FN  | Bksp | |      |   |      | |Sp/_NU|Ent/_EX|  -  |   '  |   =  |
    * `----------------------------------' `------'   `------' `----------------------------------'
    *
    */
   [_QW] = LAYOUT( /* Qwerty */
-    KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,                                  KC_Y,            KC_U,    KC_I,    KC_O,    KC_P,
-    KC_A,        KC_S,    KC_D,    KC_F,    KC_G,                                  KC_H,            KC_J,    KC_K,    KC_L,    KC_SCLN,
-    SFT_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,                                  KC_N,            KC_M,    KC_COMM, KC_DOT,  SFT_T(KC_SLSH),
-    KC_ESC,      KC_LGUI, KC_TAB,  MO(_FN), KC_BSPC, CTL_T(KC_DEL), ALT_T(KC_ENT), LT(_NU, KC_SPC), MO(_EX), KC_MINS, KC_QUOT, KC_EQL
+    KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,            KC_U,            KC_I,    KC_O,    KC_P,
+    KC_A,        KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,            KC_J,            KC_K,    KC_L,    KC_SCLN,
+    SFT_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,                      KC_N,            KC_M,            KC_COMM, KC_DOT,  SFT_T(KC_SLSH),
+    KC_ESC,      KC_TAB,  KC_LGUI, MO(_FN), KC_BSPC, KC_LCTL, KC_LALT, LT(_NU, KC_SPC), LT(_EX, KC_ENT), KC_MINS, KC_QUOT, KC_EQL
   ),
 
   /*
@@ -124,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * +------+------+------+------+------|                     +------+------+------+------+------|
    * |   %  |   ^  |   [  |   ]  |   `  | ,------.   ,------. |   \  |   1  |   2  |   3  |   +  |
    * +------+------+------+------+------| |      |   |      | +------+------+------+------+------|
-   * |      |  _GA |      |      |      | |      |   |      | |XXXXXX|   0  |   .  |   =  |      |
+   * |      |      |      |      |      | |      |   |      | |XXXXXX| Enter|   .  |   0  |   =  |
    * `----------------------------------' `------'   `------' `----------------------------------'
    *
    */
@@ -132,7 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_AMPR,                    KC_SLSH, KC_7,    KC_8,   KC_9,   KC_ASTR,
     KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_TILD,                    KC_PIPE, KC_4,    KC_5,   KC_6,   KC_MINS,
     KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_GRV,                     KC_BSLS, KC_1,    KC_2,   KC_3,   KC_PLUS,
-    _______, TG(_GA), _______, _______, _______, _______,  _______, _______, KC_0,    KC_DOT, KC_EQL, _______
+    _______, _______, _______, _______, _______, _______,  _______, _______, KC_ENT,  KC_DOT, KC_0,   KC_EQL
   ),
 
   /*
@@ -143,38 +164,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * +------+------+------+------+------|                     +------+------+------+------+------|
    * |      |  F5  |  F6  |  F7  |  F8  |                     | Vol ^| MLeft| MDown|MRight|      |
    * +------+------+------+------+------|                     +------+------+------+------+------|
-   * |      |  F1  |  F2  |  F3  |  F4  | ,------.   ,------. | Vol v|      |      |      |      |
-   * +------+------+------+------+------| |      |   |RClick| +------+------+------+------+------|
-   * |      |      |      |XXXXXX|      | |      |   |      | |LClick|MClick| _CO  |  _GA | RESET|
+   * |      |  F1  |  F2  |  F3  |  F4  | ,------.   ,------. | Vol v|LClick|MClick|RClick|      |
+   * +------+------+------+------+------| |      |   |      | +------+------+------+------+------|
+   * |      |      |      |XXXXXX|      | |      |   |      | | _CO  | _DH  | _QW  |      | RESET|
    * `----------------------------------' `------'   `------' `----------------------------------'
    *
    */
   [_FN] = LAYOUT( /* Functions */
     KC_CAPS, KC_F9,   KC_F10,  KC_F11,  KC_F12,                    M(_USER),KC_WH_U, KC_MS_U, KC_WH_D, _______,
     _______, KC_F5,   KC_F6,   KC_F7,   KC_F8,                     KC_VOLU, KC_MS_L, KC_MS_D, KC_MS_R, _______,
-    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,                     KC_VOLD, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, KC_BTN2, KC_BTN1, KC_BTN3, DF(_CO), DF(_QW), RESET
-  ),
-
-  /*
-   * Gaming
-   *
-   * ,----------------------------------.                     ,----------------------------------.
-   * |      |      |      |      |      |                     |      |Whl Up|  MUp |Whl Dn|      |
-   * +------+------+------+------+------|                     +------+------+------+------+------|
-   * |      |      |      |      |      |                     |      | MLeft| MDown|MRight|      |
-   * +------+------+------+------+------|                     +------+------+------+------+------|
-   * |  Z   |      |      |      |      | ,------.   ,------. |      |      |      |      |      |
-   * +------+------+------+------+------| | Bksp |   |RClick| +------+------+------+------+------|
-   * |      |  _GA |      | Shift| Space| |      |   |      | |LClick|MClick|      |      |      |
-   * `----------------------------------' `------'   `------' `----------------------------------'
-   *
-   */
-  [_GA] = LAYOUT( /* Gaming */
-    _______, _______, _______, _______, _______,                   _______, KC_WH_U, KC_MS_U, KC_WH_D, _______,
-    _______, _______, _______, _______, _______,                   _______, KC_MS_L, KC_MS_D, KC_MS_R, _______,
-    KC_Z,    _______, _______, _______, _______,                   _______, _______, KC_MS_D, _______, _______,
-    _______, TG(_GA), _______, KC_LSFT, KC_SPC,  KC_BSPC, KC_BTN2, KC_BTN1, KC_BTN3, _______, _______, _______
+    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,                     KC_VOLD, KC_BTN1, KC_BTN3, KC_BTN2, _______,
+    _______, _______, _______, _______, _______, _______, _______, DF(_CO), DF(_DH), DF(_QW), _______, RESET
   )
 };
 
