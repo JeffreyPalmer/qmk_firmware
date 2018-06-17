@@ -72,6 +72,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Prevent modifiers from sticking when switching layers */
 #define PREVENT_STUCK_MODIFIERS
+#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
 
 /*
  * Feature disable options
