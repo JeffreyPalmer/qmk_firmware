@@ -35,6 +35,7 @@
 #define KX_CGR  LCTL(KC_GRV)
 #define KX_PAST LCTL(LGUI(LALT(KC_V)))
 #define KX_SRCH LCTL(LGUI(LALT(KC_S)))
+#define KX_SHOT LGUI(LSFT(KC_4))
 
 #define KX_BKNM LT(L_NUM, KC_BSPC)
 #define KX_DCTL CTL_T(KC_DEL)
@@ -46,11 +47,13 @@
 #define KX_X_MT GUI_T(KC_X)
 #define KX_C_MT MT(MOD_LCTL | MOD_LALT, KC_C)
 #define KX_D_MT ALT_T(KC_D)
+#define KX_V_MT ALT_T(KC_V)
 
 #define KX_SLMT CTL_T(KC_SLSH)
 #define KX_DOMT GUI_T(KC_DOT)
 #define KX_COMT MT(MOD_LCTL | MOD_LALT, KC_COMM)
 #define KX_H_MT ALT_T(KC_H)
+#define KX_M_MT ALT_T(KC_M)
 
 #ifdef L_LL_R
     #define KC_R_LT LT(L_LL_R, KC_R)

@@ -79,7 +79,7 @@ These images are located in the `kle` folder of this directory. Also included is
 
 ### E layer
 
-![E layer](kle/i-layer.png)
+![E layer](kle/e-layer.png)
 
 ### I layer
 
