@@ -9,10 +9,12 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
+// TODO: add return to right shift
+
 [L_COLEMAK] = LAYOUT(
-  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,
-  KC_A,    KC_R_LT, KC_S_LT, KC_T,    KC_G,                      KC_M,    KC_N,    KC_E_LT, KC_I_LT, KC_O,
-  KX_Z_MT, KX_X_MT, KX_C_MT, KX_D_MT, KC_V,                      KC_K,    KX_H_MT, KX_COMT, KX_DOMT, KX_SLMT,
+  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,
+  KC_A,    KC_R_LT, KC_S_LT, KC_T,    KC_D,                      KC_H,    KC_N,    KC_E_LT, KC_I_LT, KC_O,
+  KX_Z_MT, KX_X_MT, KX_C_MT, KX_V_MT, KC_B,                      KC_K,    KX_M_MT, KX_COMT, KX_DOMT, KX_SLMT,
   TD_LAYR, KC_LGUI, KC_TAB,  KC_LSFT, KX_BKNM, KX_DCTL, KX_NALT, KX_SPAC, KC_RSFT, KC_MINS, KC_QUOT, KC_EQL
 )
 ,
@@ -26,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ,
 
 [L_EXTEND] = LAYOUT(
-  _______, _______, _______, KC_APP,  KX_CGR,                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_DEL,
+  KX_SHOT, _______, _______, KC_APP,  KX_CGR,                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_DEL,
   KC_LGUI, KC_LSFT, KC_LALT, KC_LCTL, _______,                    KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_BSPC,
   _______, _______, _______, KX_SRCH, KX_PAST,                    _______, KX_STAB, KC_TAB,  _______, KC_INS,
   _______, _______, _______, _______, MO_FUNC,  KC_DEL,  KC_ENT,  _______, _______, _______, _______, KC_PSCR
@@ -42,10 +44,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ,
 
 [L_LL_R] = LAYOUT(
-  _______, _______, _______, _______, _______,                   KC_COLN, KC_P7,   KC_P8,   KC_P9,   KC_PSLS,
-  _______, ooooooo, KC_AMPR, KC_PIPE, _______,                   KC_HASH, KC_P4,   KC_P5,   KC_P6,   KC_PAST,
-  _______, _______, _______, _______, _______,                   KC_BSPC, KC_P1,   KC_P2,   KC_P3,   KC_PMNS,
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_0,    KC_DOT,  KC_EQL,  KC_PLUS
+  _______, _______, _______, _______, _______,                   KC_COLN, KC_7,   KC_8,   KC_9,   KC_PSLS,
+  _______, ooooooo, KC_AMPR, KC_PIPE, _______,                   KC_HASH, KC_4,   KC_5,   KC_6,   KC_PAST,
+  _______, _______, _______, _______, _______,                   KC_BSPC, KC_1,   KC_2,   KC_3,   KC_PMNS,
+  _______, _______, _______, _______, _______, _______, _______, _______, KC_0,   KC_DOT, KC_EQL, KC_PLUS
 )
 ,
 
