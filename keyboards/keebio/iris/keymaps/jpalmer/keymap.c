@@ -1,13 +1,15 @@
 #include QMK_KEYBOARD_H
 
-#define _COLEMAK 0
-#define _NUMPAD 1
-#define _SYMBOL 2
-#define _EXTEND 3
-#define _ADJUST 4
+#define _MODDH 0
+#define _COLEMAK 1
+#define _NUMPAD 2
+#define _SYMBOL 3
+#define _EXTEND 4
+#define _ADJUST 5
 
 enum custom_keycodes {
   COLEMAK = SAFE_RANGE,
+  MODDH,
   NUMPAD,
   SYMBOL,
   EXTEND,
@@ -19,27 +21,37 @@ enum custom_keycodes {
 
 #define KX_NALT ALT_T(KC_ENT)
 #define KX_SPAC LT(_EXTEND, KC_SPC)
+
+// Colemak Modifiers
 #define KX_Z_MT CTL_T(KC_Z)
 #define KX_X_MT GUI_T(KC_X)
 #define KX_C_MT MT(MOD_LCTL | MOD_LALT, KC_C)
-#define KX_D_MT ALT_T(KC_D)
 #define KX_V_MT ALT_T(KC_V)
-#define KX_SLMT CTL_T(KC_SLSH)
-#define KX_DOMT GUI_T(KC_DOT)
-#define KX_COMT MT(MOD_LCTL | MOD_LALT, KC_COMM)
-#define KX_H_MT ALT_T(KC_H)
+
 #define KX_M_MT ALT_T(KC_M)
-#define KX_ASFT LSFT_T(KC_A)
-#define KX_OSFT RSFT_T(KC_O)
-#define KX_LSFT LSFT_T(KC_TAB)
-#define KX_RSFT RSFT_T(KC_MINUS)
+#define KX_COMT MT(MOD_LCTL | MOD_LALT, KC_COMM)
+#define KX_DOMT GUI_T(KC_DOT)
+#define KX_SLMT CTL_T(KC_SLSH)
+
+// Colemak MOD-DH Modifiers
+#define KX_D_MT ALT_T(KC_D)
+#define KX_H_MT ALT_T(KC_H)
+
 #define KX_LCTL CTL_T(KC_TAB)
 #define KX_RALT ALT_T(KC_ENT)
 #define KX_AJST LT(_ADJUST, KC_ESC)
 
+// Test shift on a letter key
+#define KX_ASFT LSFT_T(KC_A)
+#define KX_OSFT RSFT_T(KC_O)
+
 #define KX_STAB LSFT(KC_TAB)
 #define KX_R_LT LT(_NUMPAD, KC_R)
 #define KX_I_LT LT(_SYMBOL, KC_I)
+
+// default layer switching
+#define KX_CLMK DF(_COLEMAK)
+#define KX_MDDH DF(_MODDH)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -52,6 +64,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_LCTL, KC_A,    KX_R_LT, KC_S,    KC_T,    KC_D,                               KC_H,    KC_N,    KC_E,    KX_I_LT, KC_O,    KC_QUOT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSFT, KX_Z_MT, KX_X_MT, KX_C_MT, KX_V_MT, KC_B,    KX_AJST,          KC_ENT,  KC_K,    KX_M_MT, KX_COMT, KX_DOMT, KX_SLMT, KC_MINUS,
+  //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
+                                    KC_LSFT, KC_BSPC, KX_LCTL,                   KX_RALT, KX_SPAC, KC_RSFT
+                                // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
+  ),
+
+  [_MODDH] = LAYOUT(
+  //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
+     KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                            KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_EQL,
+  //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                               KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
+  //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_LCTL, KC_A,    KX_R_LT, KC_S,    KC_T,    KC_G,                               KC_M,    KC_N,    KC_E,    KX_I_LT, KC_O,    KC_QUOT,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_LSFT, KX_Z_MT, KX_X_MT, KX_C_MT, KX_D_MT, KC_V,    KX_AJST,          KC_ENT,  KC_K,    KX_H_MT, KX_COMT, KX_DOMT, KX_SLMT, KC_MINUS,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     KC_LSFT, KC_BSPC, KX_LCTL,                   KX_RALT, KX_SPAC, KC_RSFT
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
@@ -102,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     RESET,   _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+     RESET,   _______, _______, _______, _______, KX_CLMK,                            KX_MDDH, _______, _______, _______, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______, RGB_HUI, RGB_SAI, RGB_VAI, RGB_TOG, _______,                            KC_VOLU, KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
