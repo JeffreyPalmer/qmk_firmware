@@ -171,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_user(void){
-  rgblight_sethsv_noeeprom(HSV_PURPLE); // set to red
+  rgblight_sethsv_noeeprom(HSV_GREEN); // set to red
   rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING); // set to breathing
 }
 
