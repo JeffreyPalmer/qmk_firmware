@@ -80,6 +80,7 @@ enum custom_keycodes {
 #define KX_COMT MT(MOD_LCTL | MOD_LALT, KC_COMM)
 #define KX_DOMT GUI_T(KC_DOT)
 #define KX_SLMT CTL_T(KC_SLSH)
+#define KX_MINS CTL_T(KC_MINS)
 
 // Colemak MOD-DH Modifiers
 #define KX_D_MT ALT_T(KC_D)
@@ -141,23 +142,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    │ m o d - d h                                     │
    └─────────────────────────────────────────────────┘
    ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    q    │    w    │    f    │    p    │    b    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    j    │    l    │    u    │    y    │    ;    │
+   │    q    │    w    │    f    │    p    │    b    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    j    │    l    │    u    │    y    │    '    │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
    │    a    │    r    │    s    │    t    │    g    ├─╯                ╰─┤    m    │    n    │    e    │    i    │    o    │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    z    │    x    │    c    │    d    │    v    ││        ││        ││    k    │    h    │    ,    │    .    │    /    │
+   │    z    │    x    │    c    │    d    │    v    ││        ││        ││    k    │    h    │    ,    │    .    │    -    │
    └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
                        │  lshft  │  bspc   │  lctrl  │                    │  ralt   │  space  │  rshft  │
                        └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
 */
    [_MODDH] = LAYOUT_saegewerk(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-      KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                          KC_J,     KC_L,     KC_U,     KC_Y,    KC_SCLN,
+      KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                          KC_J,     KC_L,     KC_U,     KC_Y,    KC_QUOT,
       KC_A,     KX_R_LT,  KC_S,     KC_T,     KC_G,                          KC_M,     KC_N,     KC_E,     KX_I_LT, KC_O,
-      KX_Z_MT,  KX_X_MT,  KX_C_MT,  KX_D_MT,  KC_V,    KC_MUTE,  KC_MPLY,    KC_K,     KX_H_MT,  KX_COMT,  KX_DOMT, KX_SLMT,
+      KX_Z_MT,  KX_X_MT,  KX_C_MT,  KX_D_MT,  KC_V,    KC_MUTE,  KC_MPLY,    KC_K,     KX_H_MT,  KX_COMT,  KX_DOMT, KX_MINS,
                           KC_LSFT,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPAC,  KC_RSFT
 ),
-
 
 /*
    ┌─────────────────────────────────────────────────┐
@@ -186,20 +186,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    │ s y m b o l                                     │
    └─────────────────────────────────────────────────┘
    ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │         │    _    │    `    │         │ Colemak │
+   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │         │    !    │    :    │         │ Colemak │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤         │    -    │    '    │ ooooooo │ Mod-DH  │
+   │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤         │    #    │    ;    │ ooooooo │ Mod-DH  │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    %    │    ^    │    [    │    ]    │    \    ││        ││        ││         │    ~    │    "    │         │ QK_BOOT │
+   │    %    │    ^    │    [    │    ]    │    \    ││        ││        ││         │    %    │    ~    │         │ QK_BOOT │
    └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
                        │         │         │         │                    │         │         │         │
                        └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
 */
    [_SYMBOL] = LAYOUT_saegewerk(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       _______,  KC_UNDS,  KC_GRV,   _______,  KX_CLMK,
-     KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       _______,  KC_MINS,  KC_QUOT,  ooooooo,  KX_MDDH,
-     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  _______,  KC_TILD,  KC_DQT,   _______,  QK_BOOT,
+     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       _______,  KC_EXLM,  KC_COLN,  _______,  KX_CLMK,
+     KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       _______,  KC_HASH,  KC_SCLN,  ooooooo,  KX_MDDH,
+     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  _______,  KC_PERC,  KC_TILD,  _______,  QK_BOOT,
                          _______,  _______,  _______,                       _______,  _______,  _______
 ),
 
