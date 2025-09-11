@@ -89,6 +89,8 @@ enum custom_keycodes {
 #define KX_LCTL CTL_T(KC_TAB)
 #define KX_RALT ALT_T(KC_ENT)
 #define KX_AJST LT(_ADJUST, KC_ESC)
+#define KX_LSFT OSM(MOD_LSFT)
+#define KX_RSFT OSM(MOD_RSFT)
 
 // Test shift on a letter key
 #define KX_ASFT LSFT_T(KC_A)
@@ -156,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                          KC_J,     KC_L,     KC_U,     KC_Y,    KC_QUOT,
       KC_A,     KX_R_LT,  KC_S,     KC_T,     KC_G,                          KC_M,     KC_N,     KC_E,     KX_I_LT, KC_O,
       KX_Z_MT,  KX_X_MT,  KX_C_MT,  KX_D_MT,  KC_V,    KC_MUTE,  KC_MPLY,    KC_K,     KX_H_MT,  KX_COMT,  KX_DOMT, KX_MINS,
-                          KC_LSFT,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPAC,  KC_RSFT
+                          KX_LSFT,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPAC,  KX_RSFT
 ),
 
 /*
@@ -186,20 +188,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    │ s y m b o l                                     │
    └─────────────────────────────────────────────────┘
    ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │         │    !    │    :    │         │ Colemak │
+   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │         │    ?    │    ~    │         │ Colemak │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤         │    #    │    ;    │ ooooooo │ Mod-DH  │
+   │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤    +    │    /    │    :    │ ooooooo │ Mod-DH  │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    %    │    ^    │    [    │    ]    │    \    ││        ││        ││         │    %    │    ~    │         │ QK_BOOT │
+   │    %    │    ^    │    [    │    ]    │    \    ││        ││        ││         │    =    │    ;    │         │ QK_BOOT │
    └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
                        │         │         │         │                    │         │         │         │
                        └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
 */
    [_SYMBOL] = LAYOUT_saegewerk(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       _______,  KC_EXLM,  KC_COLN,  _______,  KX_CLMK,
-     KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       _______,  KC_HASH,  KC_SCLN,  ooooooo,  KX_MDDH,
-     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  _______,  KC_PERC,  KC_TILD,  _______,  QK_BOOT,
+     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       _______,  KC_QUES,  KC_TILD,  _______,  KX_CLMK,
+     KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       KC_PLUS,  KC_SLSH,  KC_COLN,  ooooooo,  KX_MDDH,
+     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  _______,  KC_EQL,   KC_SCLN,  _______,  QK_BOOT,
                          _______,  _______,  _______,                       _______,  _______,  _______
 ),
 
@@ -730,12 +732,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_MODDH] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
+    [_MODDH]   = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
     [_COLEMAK] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
-    [_NUMPAD] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
-    [_SYMBOL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
-    [_EXTEND] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
-    [_ADJUST] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
+    [_NUMPAD]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
+    [_SYMBOL]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
+    [_EXTEND]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
+    [_ADJUST]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
 };
 #endif
 
@@ -788,6 +790,3 @@ combo_t key_combos[] = {
                                                                  ████▄▄████▄▄████
 
 */
-
-
-

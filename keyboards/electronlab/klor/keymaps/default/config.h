@@ -31,12 +31,17 @@ for more options.
 
 #define PERMISSIVE_HOLD
 
+#undef HOLD_ON_OTHER_KEY_PRESS
+
 #define COMBO_COUNT 1
 
 // Auto Shift
 // #define NO_AUTO_SHIFT_ALPHA
 // #define AUTO_SHIFT_TIMEOUT TAPPING_TERM
 // #define AUTO_SHIFT_NO_SETUP
+
+// Caps Word
+#define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 
 // #undef LOCKING_SUPPORT_ENABLE
 // #undef LOCKING_RESYNC_ENABLE
