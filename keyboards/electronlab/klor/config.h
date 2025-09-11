@@ -46,13 +46,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_USB_DETECT
 
 //Half Duplex communication
-#define SERIAL_USART_TX_PIN GP1     // USART TX pin
+//#define SERIAL_USART_TX_PIN GP1     // USART TX pin
 
 //Full Duplex communication
-//#define SERIAL_USART_TX_PIN GP4     // USART TX pin
-//#define SERIAL_USART_RX_PIN GP1     // USART RX pin
-//#define SERIAL_USART_FULL_DUPLEX
-//#define SERIAL_USART_PIN_SWAP
+#define SERIAL_USART_TX_PIN GP4     // USART TX pin
+#define SERIAL_USART_RX_PIN GP1     // USART RX pin
+#define SERIAL_USART_FULL_DUPLEX
+#define SERIAL_USART_PIN_SWAP
 
 // ┌─────────────────────────────────────────────────┐
 // │ e n c o d e r s                                 │

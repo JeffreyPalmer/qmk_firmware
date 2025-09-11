@@ -21,17 +21,15 @@ see https://docs.qmk.fm/#/feature_split_keyboard?id=setting-handedness
 for more options.
 */
 
-//#define EE_HANDS
+#define EE_HANDS
 //#define MASTER_LEFT
-#define MASTER_RIGHT
+//#define MASTER_RIGHT
 
 //#define TAPPING_TERM 170
 #undef  TAPPING_TERM
-#define TAPPING_TERM 200
+#define TAPPING_TERM 170
 
-// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 #define PERMISSIVE_HOLD
-//#define TAPPING_FORCE_HOLD
 
 #define COMBO_COUNT 1
 

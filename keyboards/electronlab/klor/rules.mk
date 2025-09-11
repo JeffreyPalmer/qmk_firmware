@@ -20,7 +20,7 @@ WS2812_DRIVER = vendor
 #CONVERT_TO = blok
 #CONVERT_TO = elite_pi
 
-# AUDIO 
+# AUDIO
 AUDIO_DRIVER = pwm_hardware
 
 I2C_DRIVER_REQUIRED = yes

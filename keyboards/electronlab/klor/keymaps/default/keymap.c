@@ -25,6 +25,10 @@
 #include "drivers/haptic/drv2605l.h"
 #endif
 
+// TODO: Try out the auto-shift functionality
+// TODO: Move all layer shifts onto the bottom row so that I can use the automated shift functionality
+// TODO: Add a CAPS LOCK, and perhaps other locks to some layer
+// TODO: Experiment with caps word mode (https://docs.qmk.fm/features/caps_word)
 
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 // │ D E F I N I T I O N S                                                                                                                      │
@@ -215,10 +219,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 */
    [_EXTEND] = LAYOUT_saegewerk(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     _______,  _______,  _______,  KX_SHOT,  _______,                       KC_PGUP,  KC_HOME,  KC_UP,    KC_END,   KC_DEL,
+     _______,  _______,  KX_SHOT,  _______,  _______,                       KC_PGUP,  KC_HOME,  KC_UP,    KC_END,   KC_DEL,
      KC_LGUI,  KC_LSFT,  KC_LALT,  KC_LCTL,  _______,                       KC_PGDN,  KC_LEFT,  KC_DOWN,  KC_RIGHT, KC_BSPC,
      _______,  _______,  _______,  _______,  _______,  _______,   _______,  KC_ENT,   KX_STAB,  KC_TAB,   _______,  KC_INS,
-                         _______,  ADJUST,   KC_ESC,                       _______,  ooooooo,  _______
+                         _______,  _______,   KC_ESC,                       _______,  ooooooo,  _______
 ),
 
 /*
@@ -385,20 +389,20 @@ void render_os_lock_status(void) {
 
     oled_write_ln_P(sep_v, false);
 
-    if (keymap_config.swap_lctl_lgui) {
+    //if (keymap_config.swap_lctl_lgui) {
         oled_write_P(os_m_1, false); // ──── MAC
-    } else {
-        oled_write_P(os_w_1, false); // ──── WIN
-    }
+    //} else {
+    //    oled_write_P(os_w_1, false); // ──── WIN
+    //}
 
     oled_write_P(sep_h1, false);
     oled_write_P(face_1, false);
 
-    if (keymap_config.swap_lctl_lgui) {
+    //if (keymap_config.swap_lctl_lgui) {
         oled_write_P(os_m_2, false); // ──── MAC
-    } else {
-        oled_write_P(os_w_2, false); // ──── WIN
-    }
+    //} else {
+    //    oled_write_P(os_w_2, false); // ──── WIN
+    //}
 
     oled_write_P(sep_h1, false);
     oled_write_P(face_2, false);
@@ -460,32 +464,35 @@ void render_os_lock_status(void) {
 
 // layer status ──────────────────────────────────────────┐
 
-int layerstate = 0;
+// int layerstate = 0;
 
 layer_state_t layer_state_set_kb(layer_state_t state) {
-      switch (get_highest_layer(layer_state | default_layer_state)) {
+      switch (get_highest_layer(state | default_layer_state)) {
             case _MODDH:
-                strcpy ( layer_state_str, "MOD-DH");
+                strcpy ( layer_state_str, "BASE MOD-DH");
                 break;
             case _COLEMAK:
-                strcpy ( layer_state_str, "COLEMAK");
+                strcpy ( layer_state_str, "BASE COLEMAK");
                 break;
-//            case _NUMPAD:
-//                strcpy ( layer_state_str, "NUMPAD");
-//                break;
-//            case _SYMBOL:
-//                strcpy ( layer_state_str, "SYMBOLS");
-//                break;
-//            case _EXTEND:
-//                strcpy ( layer_state_str, "EXTEND");
-//                break;
+            case _NUMPAD:
+                strcpy ( layer_state_str, "NUMPAD");
+                break;
+            case _SYMBOL:
+                strcpy ( layer_state_str, "SYMBOLS");
+                break;
+            case _EXTEND:
+                strcpy ( layer_state_str, "EXTEND");
+                break;
+            case _ADJUST:
+                strcpy ( layer_state_str, "ADJUST");
+                break;
             default:
                 strcpy ( layer_state_str, "XXXXXX");
         }
       if (dmacro_num < 1) {
           strcpy ( o_text, layer_state_str );
     }
-  return state;
+    return state;
   // return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
@@ -644,6 +651,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // ┌───────────────────────────────────────────────────────────┐
 // │ l a y e r                                                 │
 // └───────────────────────────────────────────────────────────┘
+
         case COLEMAK:
             if (record->event.pressed) {
                 set_single_persistent_default_layer(_COLEMAK);
@@ -654,22 +662,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 set_single_persistent_default_layer(_MODDH);
             }
             return false;
-/*        case LOWER:
+        case NUMPAD:
             if (record->event.pressed) {
-                layer_on(_LOWER);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+                layer_on(_NUMPAD);
             } else {
-                layer_off(_LOWER);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+                layer_off(_NUMPAD);
             }
             return false;
-        case RAISE:
+        case SYMBOL:
             if (record->event.pressed) {
-                layer_on(_RAISE);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+                layer_on(_SYMBOL);
             } else {
-                layer_off(_RAISE);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+                layer_off(_SYMBOL);
+            }
+            return false;
+        case EXTEND:
+            if (record->event.pressed) {
+                layer_on(_EXTEND);
+            } else {
+                layer_off(_EXTEND);
             }
             return false;
         case ADJUST:
@@ -679,7 +690,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_ADJUST);
             }
             return false;
- */
+
 
 // ┌───────────────────────────────────────────────────────────┐
 // │ q m k                                                     │
@@ -716,44 +727,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // │ E N C O D E R                                                                                                                              │
 // └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 // ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
-
-//#ifdef ENCODER_ENABLE
-//
-// ┌───────────────────────────────────────────────────────────┐
-// │ e n c o d e r  L                                          │
-// └───────────────────────────────────────────────────────────┘
-//
-//bool encoder_update_user(uint8_t index, bool clockwise) {
-//    if (index == 0) {
-//        if (clockwise) {
-//            tap_code(KC_VOLU);
-//        } else {
-//            tap_code(KC_VOLD);
-//        }
-//
-// ┌───────────────────────────────────────────────────────────┐
-// │ e n c o d e r  R                                          │
-// └───────────────────────────────────────────────────────────┘
-//
-//    } else if (index == 1) {
-//      if(layer_state_is(_QWERTY)){
-//          if (clockwise) {
-//              tap_code(KC_MFFD);
-//          } else {
-//              tap_code(KC_MRWD);
-//          }
-//      }else {
-//            if (clockwise) {
-//              tap_code(KC_MNXT);
-//          } else {
-//              tap_code(KC_MPRV);
-//          }
-//      }
-//    }
-//    return true;
-//}
-//
-//#endif // ENCODER_ENABLE
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
