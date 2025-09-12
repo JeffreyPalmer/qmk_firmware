@@ -27,7 +27,7 @@ for more options.
 
 //#define TAPPING_TERM 170
 #undef  TAPPING_TERM
-#define TAPPING_TERM 170
+#define TAPPING_TERM 200
 
 //#define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
