@@ -188,7 +188,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    │ s y m b o l                                     │
    └─────────────────────────────────────────────────┘
    ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │         │    ?    │    ~    │         │ Colemak │
+   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    &    │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
    │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤    +    │    -    │    :    │ ooooooo │ Mod-DH  │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -199,7 +199,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 */
    [_SYMBOL] = LAYOUT_saegewerk(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       _______,  KC_QUES,  KC_TILD,  _______,  KX_CLMK,
+     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       KC_AMPR,  KC_QUES,  KC_TILD,  _______,  KX_CLMK,
      KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       KC_PLUS,  KC_MINS,  KC_COLN,  ooooooo,  KX_MDDH,
      KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  KC_PAST,  KC_EQL,   KC_SCLN,  _______,  QK_BOOT,
                          _______,  _______,  _______,                       _______,  _______,  _______
