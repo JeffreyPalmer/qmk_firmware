@@ -25,10 +25,10 @@
 #include "drivers/haptic/drv2605l.h"
 #endif
 
-// TODO: Try out the auto-shift functionality
+// TODO: Try out the auto-shift functionality - this doesn't work with my current home row modifiers
 // TODO: Move all layer shifts onto the bottom row so that I can use the automated shift functionality
-// TODO: Add a CAPS LOCK, and perhaps other locks to some layer
-// TODO: Experiment with caps word mode (https://docs.qmk.fm/features/caps_word)
+// DONE: Experiment with caps word mode (https://docs.qmk.fm/features/caps_word) - this is great!
+// TODO: Figure out what to do with the ADJUST layer (may not be needed anymore?)
 
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 // │ D E F I N I T I O N S                                                                                                                      │

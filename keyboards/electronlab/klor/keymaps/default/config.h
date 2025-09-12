@@ -29,7 +29,8 @@ for more options.
 #undef  TAPPING_TERM
 #define TAPPING_TERM 170
 
-#define PERMISSIVE_HOLD
+//#define PERMISSIVE_HOLD
+#define QUICK_TAP_TERM 0
 
 #undef HOLD_ON_OTHER_KEY_PRESS
 
@@ -37,8 +38,11 @@ for more options.
 
 // Auto Shift
 // #define NO_AUTO_SHIFT_ALPHA
-// #define AUTO_SHIFT_TIMEOUT TAPPING_TERM
+//#define AUTO_SHIFT_TIMEOUT TAPPING_TERM
 // #define AUTO_SHIFT_NO_SETUP
+
+// allow the use of auto shift on home row modifier keys
+#define RETRO_SHIFT
 
 // Caps Word
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
