@@ -27,30 +27,26 @@ for more options.
 
 //#define TAPPING_TERM 170
 #undef  TAPPING_TERM
-#define TAPPING_TERM 170
+#define TAPPING_TERM 200
 
-// try out flow tap
-#define FLOW_TAP_TERM 150
-
-#define PERMISSIVE_HOLD
-// #define CHORDAL_HOLD
+//#define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
 
 #undef HOLD_ON_OTHER_KEY_PRESS
 
-#define COMBO_COUNT 1
+// #define COMBO_COUNT 1
 
 // Auto Shift
 // #define NO_AUTO_SHIFT_ALPHA
-//#define AUTO_SHIFT_TIMEOUT TAPPING_TERM
-// #define AUTO_SHIFT_NO_SETUP
+#define AUTO_SHIFT_TIMEOUT TAPPING_TERM
+#define AUTO_SHIFT_NO_SETUP
 
 // allow the use of auto shift on home row modifier keys
-// I can't figure out how to get this to work so disabling for now
-// #define RETRO_SHIFT
+#undef RETRO_SHIFT
+#define RETRO_SHIFT
 
 // Caps Word
-#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+//#define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 
 // #undef LOCKING_SUPPORT_ENABLE
 // #undef LOCKING_RESYNC_ENABLE

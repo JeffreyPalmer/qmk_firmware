@@ -25,6 +25,8 @@
 #include "drivers/haptic/drv2605l.h"
 #endif
 
+// This is my version of a Miryoku-inspired layout, but adjusted to my preferences
+
 // TODO: Try out the auto-shift functionality - this doesn't work with my current home row modifiers
 // TODO: Move all layer shifts onto the bottom row so that I can use the automated shift functionality
 // DONE: Experiment with caps word mode (https://docs.qmk.fm/features/caps_word) - this is great!
@@ -44,19 +46,10 @@ enum klor_layers {
   _NUMPAD,
   _SYMBOL,
   _EXTEND,
-  _ADJUST
 };
 
-// ┌───────────────────────────────────────────────────────────┐
-// │ d e f i n e   k e y c o d e s                             │
-// └───────────────────────────────────────────────────────────┘
+#define TRI_LAYER_LOWER_LAYER 1
 
-enum custom_keycodes {
-  NUMPAD = SAFE_RANGE,
-  SYMBOL,
-  EXTEND,
-  ADJUST
-};
 
 // ┌───────────────────────────────────────────────────────────┐
 // │ d e f i n e   m a c r o n a m e s                         │
@@ -65,19 +58,10 @@ enum custom_keycodes {
 #define ooooooo KC_TRNS
 
 #define KX_NALT ALT_T(KC_ENT)
-#define KX_SPAC LT(_EXTEND, KC_SPC)
-
-// Colemak Modifiers
-#define KX_Z_MT CTL_T(KC_Z)
-#define KX_X_MT GUI_T(KC_X)
-#define KX_C_MT MT(MOD_LCTL | MOD_LALT, KC_C)
-#define KX_V_MT ALT_T(KC_V)
-
-#define KX_M_MT ALT_T(KC_M)
-#define KX_COMT MT(MOD_LCTL | MOD_LALT, KC_COMM)
-#define KX_DOMT GUI_T(KC_DOT)
-#define KX_SLMT CTL_T(KC_SLSH)
-#define KX_MINS CTL_T(KC_MINS)
+#define KX_SPAC LT(_SYMBOL, KC_SPC)
+#define KX_ESC  LT(_NUMPAD, KC_ESC)
+#define KX_BSLT LT(_EXTEND, KC_BSPC)
+#define KX_ADJT LT(_ADJUST, CW_TOGG)
 
 // Colemak MOD-DH Modifiers
 #define KX_D_MT ALT_T(KC_D)
@@ -88,25 +72,24 @@ enum custom_keycodes {
 #define KX_LSFT OSM(MOD_LSFT)
 #define KX_RSFT OSM(MOD_RSFT)
 
-// Test shift on a letter key
-#define KX_ASFT LSFT_T(KC_A)
-#define KX_OSFT RSFT_T(KC_O)
+#define KX_DOT LGUI_T(KC_DOT)
+#define KX_X LGUI_T(KC_X)
+
+// Miryoku-inspired layer keys
 
 #define KX_STAB LSFT(KC_TAB)
 #define KX_R_LT LT(_NUMPAD, KC_R)
 #define KX_I_LT LT(_SYMBOL, KC_I)
 
+# New keycodes
+#define DESK_1 LCTL(KC_1)
+#define DESK_2 LCTL(KC_2)
+#define DESK_3 LCTL(KC_3)
+#define DESK_4 LCTL(KC_4)
+
+
 // Convenience keys
 #define KX_SHOT LGUI(LSFT(KC_5))
-#define KX_DSK1 LCTL(KC_1)
-#define KX_DSK2 LCTL(KC_2)
-#define KX_DSK3 LCTL(KC_3)
-#define KX_DSK4 LCTL(KC_4)
-
-// The following keys are working with auto shift
-// QWFPB JLUY"
-// A STG MNE O
-//     V K
 
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 // │ K E Y M A P S                                                                                                                              │
@@ -115,119 +98,54 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
- /*
-   ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
+// ╺━ Mod-DH Base ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
 
-   ┌─────────────────────────────────────────────────┐
-   │ m o d - d h                                     │
-   └─────────────────────────────────────────────────┘
-   ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    q    │    w    │    f    │    p    │    b    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    j    │    l    │    u    │    y    │    '    │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    a    │    r    │    s    │    t    │    g    ├─╯                ╰─┤    m    │    n    │    e    │    i    │    o    │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    z    │    x    │    c    │    d    │    v    ││        ││        ││    k    │    h    │    ,    │    .    │    /    │
-   └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
-                       │  lshft  │  bspc   │  lctrl  │                    │  ralt   │  space  │  rshft  │
-                       └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
-*/
-   [_MODDH] = LAYOUT_saegewerk(
- //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-      KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                          KC_J,     KC_L,     KC_U,     KC_Y,    KC_QUOT,
-      KC_A,     KX_R_LT,  KC_S,     KC_T,     KC_G,                          KC_M,     KC_N,     KC_E,     KX_I_LT, KC_O,
-      KX_Z_MT,  KX_X_MT,  KX_C_MT,  KX_D_MT,  KC_V,    KC_MUTE,  KC_MPLY,    KC_K,     KX_H_MT,  KX_COMT,  KX_DOMT, KX_SLMT,
-                          KX_LSFT,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPAC,  KX_RSFT
+  [_MODDH] = LAYOUT_saegewerk(
+//  --------  --------  --------  --------  --------  --------  --------  --------  --------  --------  --------  --------
+    KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                         KC_J,     KC_L,     KC_U,     KC_Y,     KC_QUOT,
+    KC_A,     KC_R,     KC_S,     KC_T,     KC_G,                         KC_M,     KC_N,     KC_E,     KC_I,     KC_O,
+    KC_Z,     KX_X,     KC_C,     KC_D,     KC_V,     KC_MUTE,  KC_MPLY,  KC_K,     KC_H,     KC_COMM,  KX_DOT,   KC_SLSH,
+                        KX_ESC,   KX_BSLT,  KX_LCTL,                      KX_RALT,  KX_SPAC,  KX_ADJT
 ),
 
-/*
-   ┌─────────────────────────────────────────────────┐
-   │ n u m p a d                                     │
-   └─────────────────────────────────────────────────┘
-   ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │         │         │    (    │    )    │         │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    *    │    7    │    8    │    9    │    +    │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │         │ ooooooo │    &    │    |    │         ├─╯                ╰─┤    /    │    4    │    5    │    6    │    -    │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │         │         │    :    │         │         ││        ││        ││   bspc  │    1    │    2    │    3    │    #    │
-   └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
-                       │         │         │         │                    │    =    │    0    │    .    │
-                       └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
-*/
-   [_NUMPAD] = LAYOUT_saegewerk(
- //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     _______,  _______,  KC_LPRN,  KC_RPRN,  _______,                       KC_PAST,   KC_7,     KC_8,     KC_9,    KC_PLUS,
-     _______,  ooooooo,  KC_AMPR,  KC_PIPE,  _______,                       KC_PSLS,   KC_4,     KC_5,     KC_6,    KC_PMNS,
-     _______,  _______,  KC_COLN,  _______,  _______,  _______,   _______,  KC_BSPC,   KC_1,     KC_2,     KC_3,    KC_HASH,
-                         _______,  _______,  _______,                       KC_EQL,    KC_0,     KC_DOT
+// ╺━ Numpad ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
+  [_NUMPAD] = LAYOUT_saegewerk(
+//  --------  --------  --------  --------  --------  --------  --------  --------  --------  --------  --------  --------
+    _______,  _______,  _______,  _______,  _______,                      KC_PAST,  KC_7,     KC_8,      KC_9,    KC_PLUS,
+    KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  _______,                      KC_PSLS,  KC_4,     KC_5,      KC_6,    KC_PMNS,
+    _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_BSPC,  KC_1,     KC_2,      KC_3,    KC_HASH,
+                        ooooooo,  _______,  _______,                      KC_EQL,   KC_0,     KC_DOT
 ),
 
-/*
-   ┌─────────────────────────────────────────────────┐
-   │ s y m b o l                                     │
-   └─────────────────────────────────────────────────┘
-   ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    &    │    =    │    ?    │         │         │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤    +    │    -    │    ;    │ ooooooo │         │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    %    │    ^    │    [    │    ]    │    \    ││        ││        ││    *    │    ~    │    :    │         │ QK_BOOT │
-   └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
-                       │         │         │         │                    │         │         │         │
-                       └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
-*/
-   [_SYMBOL] = LAYOUT_saegewerk(
- //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       KC_AMPR,  KC_EQL,   KC_QUES,   _______,  _______,
-     KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       KC_PLUS,  KC_MINS,  KC_SCLN,  ooooooo,  _______,
-     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  KC_PAST,  KC_TILD,  KC_COLN,  _______,  QK_BOOT,
-                         _______,  _______,  _______,                       _______,  _______,  _______
+// ╺━ Symbol ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
+// !@{}/  &?~
+// #$()|  +-:
+// %^[]\  *=;
+[_SYMBOL] = LAYOUT_saegewerk(
+    KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       KC_AMPR,  KC_QUES,  KC_TILD,  _______,  _______,
+    KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       KC_PLUS,  KC_MINS,  KC_COLN,  _______,  _______,
+    KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  KC_PAST,  KC_EQL,   KC_SCLN,  _______,  _______,
+                        _______,  ooooooo,  _______,                       _______,  _______,  _______
 ),
 
-/*
-   ┌─────────────────────────────────────────────────┐
-   │ e x t e n d                                     │
-   └─────────────────────────────────────────────────┘
-   ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │         │         │ SCRSHOT │         │         │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │  PG UP  │  HOME   │   UP    │   END   │   DEL   │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │  LGUI   │  LSHFT  │  LALT   │  LCTL   │         ├─╯                ╰─┤  PG DN  │  LEFT   │  DOWN   │  RIGHT  │   BSPC  │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │         │         │         │         │         ││        ││        ││   ENT   │  STAB   │   TAB   │         │   INS   │
-   └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
-                       │         │         │  ESC    │                    │         │ ooooooo │         │
-                       └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
-*/
-   [_EXTEND] = LAYOUT_saegewerk(
- //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     _______,  _______,  KX_SHOT,  _______,  _______,                       KC_PGUP,  KC_HOME,  KC_UP,    KC_END,   KC_DEL,
-     KC_LGUI,  KC_LSFT,  KC_LALT,  KC_LCTL,  _______,                       KC_PGDN,  KC_LEFT,  KC_DOWN,  KC_RIGHT, KC_BSPC,
-     _______,  _______,  _______,  _______,  _______,  _______,   _______,  KC_ENT,   KX_STAB,  KC_TAB,   _______,  KC_INS,
-                         _______,  _______,   KC_ESC,                       _______,  ooooooo,  _______
+// ╺━ Extend ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
+
+[_EXTEND] = LAYOUT_saegewerk(
+//  ------------   ------------   ------------   ------------   ------------   --------   --------   ------------   ------------   ------------   ------------   ------------
+    _______,       _______,       KX_SHOT,       _______,       _______,                             KC_PGUP,       KC_HOME,       KC_UP,         KC_END,        KC_DEL,
+    KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT,       _______,                             KC_PGDN,       KC_LEFT,       KC_DOWN,       KC_RIGHT,      KC_BSPC,
+    _______,       _______,       _______,       _______,       _______,       _______,   _______,   KC_ENT,        KX_STAB,       KC_TAB,        _______,       KC_INS,
+                                  _______,       ooooooo,       _______,                             _______,       _______,       _______
 ),
 
-/*
-   ┌─────────────────────────────────────────────────┐
-   │ a d j u s t                                     │
-   └─────────────────────────────────────────────────┘
-   ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │ QK_BOOT │         │         │         │ Colemak │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │ Mod-DH  │  HOME   │   UP    │   END   │   DEL   │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │  LGUI   │  LSHFT  │  LALT   │  LCTL   │         ├─╯                ╰─┤  PG DN  │  LEFT   │  DOWN   │  RIGHT  │   BSPC  │
-   ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │         │         │         │         │         ││        ││        ││   ENT   │  STAB   │   TAB   │         │   INS   │
-   └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
-                       │         │ ooooooo │         │                    │         │ ooooooo │         │
-                       └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
- */
-/*
+// ╺━ Adjust ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
    [_ADJUST] = LAYOUT_saegewerk(
- //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     QK_BOOT,  _______,  KX_CLMK,  _______,  KX_MDDH,                       _______,  KC_F9,    KC_F10,   KC_F11,   KC_F12,
-     _______,  _______,  _______,  _______,  _______,                       _______,  KC_F5,    KC_F6,    KC_F7,    KC_F8,
-     _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,
-                         _______,  ooooooo,  _______,                       _______,  ooooooo,  _______
+    QK_BOOT,  _______,  _______,  _______,  _______,                       QK_BOOT,  KC_F9,    KC_F10,   KC_F11,   KC_F12,
+    _______,  _______,  _______,  _______,  _______,                       _______,  KC_F5,    KC_F6,    KC_F7,    KC_F8,
+    _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,
+                        _______,  _______,  _______,                       _______,  _______,  ooooooo
 )
-*/
+
 
  /*
    ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
@@ -254,6 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  )
 
  */
+
 };
 
 
@@ -335,29 +254,6 @@ void matrix_scan_user(void) {
 }
 
 
-bool is_apple = true;
-
-// operating system detection
-bool process_detected_host_os_kb(os_variant_t detected_os) {
-    if (!process_detected_host_os_user(detected_os)) {
-        return false;
-    }
-    switch (detected_os) {
-        case OS_MACOS:
-        case OS_IOS:
-          is_apple = true;
-            break;
-        case OS_WINDOWS:
-        case OS_LINUX:
-        case OS_UNSURE:
-          is_apple = false;
-            break;
-    }
-    return true;
-}
-
-
-
 // ┌───────────────────────────────────────────────────────────┐
 // │ o l e d   g r a p h i c s                                 │
 // └───────────────────────────────────────────────────────────┘
@@ -393,20 +289,20 @@ void render_os_lock_status(void) {
 
     oled_write_ln_P(sep_v, false);
 
-    if (is_apple) {
+    //if (keymap_config.swap_lctl_lgui) {
         oled_write_P(os_m_1, false); // ──── MAC
-    } else {
-        oled_write_P(os_w_1, false); // ──── WIN
-    }
+    //} else {
+    //    oled_write_P(os_w_1, false); // ──── WIN
+    //}
 
     oled_write_P(sep_h1, false);
     oled_write_P(face_1, false);
 
-    if (is_apple) {
+    //if (keymap_config.swap_lctl_lgui) {
         oled_write_P(os_m_2, false); // ──── MAC
-    } else {
-        oled_write_P(os_w_2, false); // ──── WIN
-    }
+    //} else {
+    //    oled_write_P(os_w_2, false); // ──── WIN
+    //}
 
     oled_write_P(sep_h1, false);
     oled_write_P(face_2, false);
@@ -587,39 +483,6 @@ bool oled_task_kb(void) {
 0x1f, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x0f, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x0f, 0x0f, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x0f, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x0f, 0x0f, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f,
-//            0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x0f, 0x0f, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x0f, 0x0f, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xf0, 0xf0, 0xf0,
-//            0xf0, 0xf0, 0xf0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x0f, 0x0f, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x0f, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x0f, 0x0f, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x0f, 0x0f, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
         oled_write_raw_P(klor_face, sizeof(klor_face));
     }
@@ -645,6 +508,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 // │ M A C R O S                                                                                                                                │
 // └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 // ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
+
 /*
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -653,13 +517,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // │ l a y e r                                                 │
 // └───────────────────────────────────────────────────────────┘
 
-        case NUMPAD:
-            if (record->event.pressed) {
-                layer_on(_NUMPAD);
-            } else {
-                layer_off(_NUMPAD);
-            }
-            return false;
+// symbol on left side
+// extend on right side
+// numbers when both are pressed
+
         case SYMBOL:
             if (record->event.pressed) {
                 layer_on(_SYMBOL);
@@ -674,6 +535,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_EXTEND);
             }
             return false;
+        case NUMPAD:
+            if (record->event.pressed) {
+                layer_on(_NUMPAD);
+            } else {
+                layer_off(_NUMPAD);
+            }
+            return false;
         case ADJUST:
             if (record->event.pressed) {
                 layer_on(_ADJUST);
@@ -681,12 +549,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_ADJUST);
             }
             return false;
-
-
     }
     return true;
 }
-*/
+ */
 
 
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -700,6 +566,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_NUMPAD]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
     [_SYMBOL]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
     [_EXTEND]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
+    [_ADJUST]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU),           ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
 };
 #endif
 
