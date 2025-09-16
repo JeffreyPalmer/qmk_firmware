@@ -65,7 +65,7 @@ enum custom_keycodes {
 #define ooooooo KC_TRNS
 
 #define KX_NALT ALT_T(KC_ENT)
-#define KX_SPAC LT(_EXTEND, KC_SPC)
+#define KX_SPC LT(_EXTEND, KC_SPC)
 #define KX_BSPC LT(_EXTEND, KC_BSPC)
 
 // Colemak Modifiers
@@ -133,7 +133,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                          KC_J,     KC_L,     KC_U,     KC_Y,    KC_QUOT,
       KC_A,     KX_R_LT,  KC_S,     KC_T,     KC_G,                          KC_M,     KC_N,     KC_E,     KX_I_LT, KC_O,
       KX_Z_MT,  KX_X_MT,  KX_C_MT,  KX_D_MT,  KC_V,    KC_MUTE,  KC_MPLY,    KC_K,     KX_H_MT,  KX_COMT,  KX_DOMT, KX_SLMT,
-                          KX_LSFT,  KX_BSPC,  KX_LCTL,                       KX_RALT,  KC_SPC,   KX_RSFT
+                          KX_LSFT,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPC,   KX_RSFT
 ),
 
 /*
@@ -199,7 +199,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,  _______,  KX_SHOT,  _______,  _______,                       KC_PGUP,  KC_HOME,  KC_UP,    KC_END,   KC_DEL,
      KC_LGUI,  KC_LSFT,  KC_LALT,  KC_LCTL,  _______,                       KC_PGDN,  KC_LEFT,  KC_DOWN,  KC_RIGHT, KC_BSPC,
      _______,  _______,  _______,  _______,  _______,  _______,   _______,  KC_ENT,   KX_STAB,  KC_TAB,   _______,  KC_INS,
-                         _______,  ooooooo,  _______,                       _______,  KC_ESC,   _______
+                         _______,  _______,  KC_ESC,                        _______,  ooooooo,  _______
 ),
 
 /*
