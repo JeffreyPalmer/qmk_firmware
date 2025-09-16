@@ -30,11 +30,11 @@ for more options.
 #define TAPPING_TERM 170
 
 // try out flow tap
-#define FLOW_TAP_TERM 150
+// #define FLOW_TAP_TERM 150
 
 #define PERMISSIVE_HOLD
-// #define CHORDAL_HOLD
-#define QUICK_TAP_TERM 0
+#define CHORDAL_HOLD
+// #define QUICK_TAP_TERM 0
 
 #undef HOLD_ON_OTHER_KEY_PRESS
 
