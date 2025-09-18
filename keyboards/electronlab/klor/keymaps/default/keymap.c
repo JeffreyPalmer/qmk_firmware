@@ -86,12 +86,8 @@ enum custom_keycodes {
 
 #define KX_LCTL CTL_T(KC_TAB)
 #define KX_RALT ALT_T(KC_ENT)
-#define KX_LSFT OSM(MOD_LSFT)
-#define KX_RSFT OSM(MOD_RSFT)
-
-// Test shift on a letter key
-#define KX_ASFT LSFT_T(KC_A)
-#define KX_OSFT RSFT_T(KC_O)
+#define KX_LSFT LSFT_T(KC_LPRN)
+#define KX_RSFT RSFT_T(KC_RPRN)
 
 #define KX_STAB LSFT(KC_TAB)
 #define KX_R_LT LT(_NUMPAD, KC_R)
@@ -133,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,                          KC_J,     KC_L,     KC_U,     KC_Y,    KC_QUOT,
       KC_A,     KX_R_LT,  KC_S,     KC_T,     KC_G,                          KC_M,     KC_N,     KC_E,     KX_I_LT, KC_O,
       KX_Z_MT,  KX_X_MT,  KX_C_MT,  KX_D_MT,  KC_V,    KC_MUTE,  KC_MPLY,    KC_K,     KX_H_MT,  KX_COMT,  KX_DOMT, KX_SLMT,
-                          KX_LSFT,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPC,   KX_RSFT
+                          SC_LSPO,  KC_BSPC,  KX_LCTL,                       KX_RALT,  KX_SPC,   SC_RSPC
 ),
 
 /*
@@ -159,25 +155,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 /*
+
+  // Symbols that can be shifted to get another symbol
+  //   grave  x
+  //   - / _  x
+  //   = / +  x
+  //   [ / {  x
+  //   ] / }  x
+  //   \ / |  x
+  //   ; / :  x
+  //   ' / " - on base
+  //   , / < - on base
+  //   . / > - on base
+  //   / / ? - on base
+  // other symbols:
+  // ! @ # $ % ^ & *  (8)
+  // ( )     - on base (soon)
+
+  // total left hand keys: 18
+
+  // \|]}]-[]{}9090
+
    ┌─────────────────────────────────────────────────┐
    │ s y m b o l                                     │
    └─────────────────────────────────────────────────┘
    ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-   │    !    │    @    │    {    │    }    │    /    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │    &    │    =    │    ?    │         │         │
+   │    !    │    @    │    &    │    *    │    `    │ ╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮╭╮ │         │         │         │         │         │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤ │╰╯╰╯╰╯╰╯╰╯╰╯╰╯╰╯│ ├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    #    │    $    │    (    │    )    │    |    ├─╯                ╰─┤    +    │    -    │    ;    │ ooooooo │         │
+   │    #    │    $    │   ;/:   │   -/_   │    ~    ├─╯                ╰─┤         │         │         │ ooooooo │         │
    ├─────────┼─────────┼─────────┼─────────┼─────────┤╭────────╮╭────────╮├─────────┼─────────┼─────────┼─────────┼─────────┤
-   │    %    │    ^    │    [    │    ]    │    \    ││        ││        ││    *    │    ~    │    :    │         │ QK_BOOT │
+   │    %    │    ^    │   [/{   │   ]/}   │   \/|   ││        ││        ││         │         │         │         │ QK_BOOT │
    └─────────┴─────────┼─────────┼─────────┼─────────┤╰────────╯╰────────╯├─────────┼─────────┼─────────┼─────────┴─────────┘
-                       │         │         │         │                    │         │         │         │
+                       │         │         │   =/+   │                    │         │         │         │
                        └─────────┴─────────┴─────────┘                    └─────────┴─────────┴─────────┘
 */
    [_SYMBOL] = LAYOUT_saegewerk(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-     KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_SLSH,                       KC_AMPR,  KC_EQL,   KC_QUES,   _______,  _______,
-     KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_PIPE,                       KC_PLUS,  KC_MINS,  KC_SCLN,  ooooooo,  _______,
-     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  KC_PAST,  KC_TILD,  KC_COLN,  _______,  QK_BOOT,
-                         _______,  _______,  _______,                       _______,  _______,  _______
+     KC_EXLM,  KC_AT,    KC_AMPR,  KC_ASTR,  KC_EQL,                        _______,  _______,  _______,   _______,  _______,
+     KC_HASH,  KC_DLR,   KC_SCLN,  KC_MINS,  KC_TILD,                       _______,  _______,  _______,  ooooooo,  _______,
+     KC_PERC,  KC_CIRC,  KC_LBRC,  KC_RBRC,  KC_BSLS,  _______,   _______,  _______,  _______,  _______,  _______,  QK_BOOT,
+                         _______,  _______,  KC_GRV,                        _______,  _______,  _______
 ),
 
 /*
